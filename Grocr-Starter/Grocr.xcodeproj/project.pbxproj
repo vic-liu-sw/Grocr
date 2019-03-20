@@ -22,6 +22,7 @@
 
 /* Begin PBXFileReference section */
 		36EF7CFD2241E77300769D12 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Users/vic_liu/Downloads/Grocr-Download-Materials/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		36EF7CFF2241F12D00769D12 /* Grocr.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Grocr.entitlements; sourceTree = "<group>"; };
 		645D7894204344160093B00C /* Grocr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Grocr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		645D7897204344160093B00C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		645D789E204344160093B00C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -88,6 +89,7 @@
 		645D7896204344160093B00C /* Grocr */ = {
 			isa = PBXGroup;
 			children = (
+				36EF7CFF2241F12D00769D12 /* Grocr.entitlements */,
 				649F421B20438CBC00B21997 /* Models */,
 				649F421C20438CC100B21997 /* Controllers */,
 				645D7897204344160093B00C /* AppDelegate.swift */,
@@ -157,7 +159,7 @@
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Keychain = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
 					};
@@ -390,6 +392,7 @@
 			baseConfigurationReference = 7E91D6516268E18FC88947A4 /* Pods-Grocr.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Grocr/Grocr.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WSC75253FH;
 				INFOPLIST_FILE = Grocr/Info.plist;
@@ -406,6 +409,7 @@
 			baseConfigurationReference = 90E01CD9D5C237C44E4FC22B /* Pods-Grocr.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Grocr/Grocr.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WSC75253FH;
 				INFOPLIST_FILE = Grocr/Info.plist;

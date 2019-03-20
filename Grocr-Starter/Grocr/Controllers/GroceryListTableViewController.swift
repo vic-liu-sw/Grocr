@@ -39,7 +39,9 @@ class GroceryListTableViewController: UITableViewController {
   var user: User!
   var userCountBarButtonItem: UIBarButtonItem!
   
-  
+  let ref = Database.database().reference(withPath: "grocery-items")
+
+
   override var preferredStatusBarStyle: UIStatusBarStyle {
     return .lightContent
   }
