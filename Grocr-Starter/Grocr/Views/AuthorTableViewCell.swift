@@ -9,6 +9,15 @@ import UIKit
 
 class AuthorTableViewCell: UITableViewCell {
 
+
+    @IBOutlet var firstNameLabel: UILabel!
+
+    @IBOutlet var lastNameCell: UILabel!
+
+    @IBOutlet var myTextView: UITextView!
+
+     
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

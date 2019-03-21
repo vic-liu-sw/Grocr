@@ -36,6 +36,7 @@ class GroceryListTableViewController: UITableViewController {
   
   // MARK: Properties
   var items: [GroceryItem] = []
+
   //var items: [AuthorViewItem] = []
   var user: User!
   var userCountBarButtonItem: UIBarButtonItem!
@@ -132,14 +133,6 @@ class GroceryListTableViewController: UITableViewController {
     })
 
 
-
-
-
-
-
-
-
-
   }
   
   // MARK: UITableView Delegate methods
@@ -149,23 +142,14 @@ class GroceryListTableViewController: UITableViewController {
   }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell", for: indexPath)
-//
+//    let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell", for: indexPath)
+     guard let cell = tableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath) as? AuthorTableViewCell else { fatalError("cellerror") }
 //    guard let firstNamestringValue = saveAuthorData.string(forKey: "firstName") else {fatalError(" firstNamestringError") }
 //
 //    guard let lastNamestringValue = saveAuthorData.string(forKey: "lastNameText") else {fatalError("lastNamestringError") }
 //
 //    guard let myTextViewstringValue = saveAuthorData.string(forKey: "myTextView") else {fatalError(" myTextViewstringError") }
-    if let firstNamestringValue = saveAuthorData.string(forKey: "firstName") {
-
-        print("firstName = \(firstNamestringValue)")
-    }
-    if let lastNamestringValue = saveAuthorData.string(forKey: "lastNameText") {
-        print("lastName =\(lastNamestringValue)")
-    }
-    if let myTextViewstringValue = saveAuthorData.string(forKey: "myTextView") {
-        print("myTextView = \(myTextViewstringValue)")
-    }
+//   
 
 // print("firstName = \(firstNamestringValue)")
 // print("lastName =\(lastNamestringValue)")
@@ -173,7 +157,9 @@ class GroceryListTableViewController: UITableViewController {
     let groceryItem = items[indexPath.row]
     // let authorItem = items[indexPath.row]
 
-
+         cell.firstNameLabel.text = groceryItem.firstName
+         cell.lastNameCell.text = groceryItem.lastName
+         cell.myTextView.text = groceryItem.articleText
 
 //    cell.textLabel?.text = groceryItem.name
 //     cell.detailTextLabel?.text = groceryItem.addedByUser
@@ -181,8 +167,7 @@ class GroceryListTableViewController: UITableViewController {
 //    cell.detailTextLabel?.text = myTextViewstringValue
 
      toggleCellCheckbox(cell, isCompleted: groceryItem.liked)
-//    toggleCellCheckbox(cell, isCompleted: groceryItem.completed)
-   // toggleCellCheckbox(cell, isCompleted: authorItem.liked)
+
 
     return cell
   }
@@ -209,7 +194,7 @@ class GroceryListTableViewController: UITableViewController {
     // 1
     guard let cell = tableView.cellForRow(at: indexPath) else { return }
     // 2
-    let groceryItem = items[indexPath.row]
+    var groceryItem = items[indexPath.row]
     // let authorItem = items[indexPath.row]
     // 3
     //let toggledCompletion = !groceryItem.completed
@@ -218,16 +203,17 @@ class GroceryListTableViewController: UITableViewController {
     // 4
     toggleCellCheckbox(cell, isCompleted: toggledCompletion)
 
-//    groceryItem.completed = toggledCompletion
-//    tableView.reloadData()
+    groceryItem.liked = toggledCompletion
+    tableView.reloadData()
     // 5
 //    authorItem.ref?.updateChildValues([
 //        "liked": toggledCompletion
 //        ])
 
     groceryItem.ref?.updateChildValues([
-        "completed": toggledCompletion
+        "liked": toggledCompletion
         ])
+
   }
   
   func toggleCellCheckbox(_ cell: UITableViewCell, isCompleted: Bool) {
@@ -265,11 +251,31 @@ class GroceryListTableViewController: UITableViewController {
                                   message: "發表文章",
                                   preferredStyle: .alert)
 
+    alert.addTextField {
+        (textField: UITextField!) -> Void in
+        textField.placeholder = "firstName"
+    }
+    alert.addTextField {
+        (textField: UITextField!) -> Void in
+        textField.placeholder = "lastName"
+
+    }
+    alert.addTextField {
+        (textField: UITextField!) -> Void in
+        textField.placeholder = "文章"
+
+    }
+
     let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
 
         // 1
-        guard let textField = alert.textFields?.first,
-            let text = textField.text else { return }
+//        guard let textField = alert.textFields?.first,
+//            let text = textField.text else { return }
+
+        guard let firsttextField = alert.textFields?[0].text else { return }
+
+        guard let lasttextField = alert.textFields?[1].text else { return }
+         guard let articletextField = alert.textFields?[2].text else { return }
         //let textField = alert.textFields![0]
 
 //      let groceryItem = GroceryItem(name: textField.text!,
@@ -279,13 +285,13 @@ class GroceryListTableViewController: UITableViewController {
         // 2
 
 
-        let groceryItem = GroceryItem(firstName: text,
-                                      lastName: text,
-                                      articleText: text,
+        let groceryItem = GroceryItem(firstName: firsttextField,
+                                      lastName: lasttextField,
+                                      articleText: articletextField,
                                      liked: false)
-
+      
         // 3
-        let groceryItemRef = self.ref.child(text.lowercased())
+        let groceryItemRef = self.ref.child(firsttextField.lowercased())
 
         // 4
         groceryItemRef.setValue(groceryItem.toAnyObject())
