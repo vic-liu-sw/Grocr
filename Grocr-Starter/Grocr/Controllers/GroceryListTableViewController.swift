@@ -36,10 +36,14 @@ class GroceryListTableViewController: UITableViewController {
   
   // MARK: Properties
   var items: [GroceryItem] = []
+  //var items: [AuthorViewItem] = []
   var user: User!
   var userCountBarButtonItem: UIBarButtonItem!
-  
+
+
+
   let ref = Database.database().reference(withPath: "grocery-items")
+ // let ref = Database.database().reference(withPath: "author-items")
 
   let usersRef = Database.database().reference(withPath: "online")
 
@@ -55,7 +59,7 @@ class GroceryListTableViewController: UITableViewController {
     
     tableView.allowsMultipleSelectionDuringEditing = false
     
-    userCountBarButtonItem = UIBarButtonItem(title: "1",
+    userCountBarButtonItem = UIBarButtonItem(title: "article",
                                              style: .plain,
                                              target: self,
                                              action: #selector(userCountButtonDidTouch))
@@ -85,11 +89,20 @@ class GroceryListTableViewController: UITableViewController {
 ////////向下排序
     ref.queryOrdered(byChild: "completed").observe(.value, with: { snapshot in
         var newItems: [GroceryItem] = []
+         // var newItems: [AuthorViewItem] = []
         for child in snapshot.children {
+
+//            if let snapshot = child as? DataSnapshot,
+//                let authorItem = AuthorViewItem(snapshot: snapshot) {
+//                newItems.append(authorItem)
+//            }
+
             if let snapshot = child as? DataSnapshot,
                 let groceryItem = GroceryItem(snapshot: snapshot) {
                 newItems.append(groceryItem)
             }
+
+
         }
 
         self.items = newItems
@@ -137,13 +150,40 @@ class GroceryListTableViewController: UITableViewController {
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell", for: indexPath)
+//
+//    guard let firstNamestringValue = saveAuthorData.string(forKey: "firstName") else {fatalError(" firstNamestringError") }
+//
+//    guard let lastNamestringValue = saveAuthorData.string(forKey: "lastNameText") else {fatalError("lastNamestringError") }
+//
+//    guard let myTextViewstringValue = saveAuthorData.string(forKey: "myTextView") else {fatalError(" myTextViewstringError") }
+    if let firstNamestringValue = saveAuthorData.string(forKey: "firstName") {
+
+        print("firstName = \(firstNamestringValue)")
+    }
+    if let lastNamestringValue = saveAuthorData.string(forKey: "lastNameText") {
+        print("lastName =\(lastNamestringValue)")
+    }
+    if let myTextViewstringValue = saveAuthorData.string(forKey: "myTextView") {
+        print("myTextView = \(myTextViewstringValue)")
+    }
+
+// print("firstName = \(firstNamestringValue)")
+// print("lastName =\(lastNamestringValue)")
+//  print("myTextView = \(myTextViewstringValue)")
     let groceryItem = items[indexPath.row]
-    
-    cell.textLabel?.text = groceryItem.name
-    cell.detailTextLabel?.text = groceryItem.addedByUser
-    
-    toggleCellCheckbox(cell, isCompleted: groceryItem.completed)
-    
+    // let authorItem = items[indexPath.row]
+
+
+
+//    cell.textLabel?.text = groceryItem.name
+//     cell.detailTextLabel?.text = groceryItem.addedByUser
+//     cell.textLabel?.text = firstNamestringValue + lastNamestringValue
+//    cell.detailTextLabel?.text = myTextViewstringValue
+
+     toggleCellCheckbox(cell, isCompleted: groceryItem.liked)
+//    toggleCellCheckbox(cell, isCompleted: groceryItem.completed)
+   // toggleCellCheckbox(cell, isCompleted: authorItem.liked)
+
     return cell
   }
   
@@ -170,14 +210,21 @@ class GroceryListTableViewController: UITableViewController {
     guard let cell = tableView.cellForRow(at: indexPath) else { return }
     // 2
     let groceryItem = items[indexPath.row]
+    // let authorItem = items[indexPath.row]
     // 3
-    let toggledCompletion = !groceryItem.completed
+    //let toggledCompletion = !groceryItem.completed
+     let toggledCompletion = !groceryItem.liked
+    // let toggledCompletion = !authorItem.liked
     // 4
     toggleCellCheckbox(cell, isCompleted: toggledCompletion)
 
 //    groceryItem.completed = toggledCompletion
 //    tableView.reloadData()
     // 5
+//    authorItem.ref?.updateChildValues([
+//        "liked": toggledCompletion
+//        ])
+
     groceryItem.ref?.updateChildValues([
         "completed": toggledCompletion
         ])
@@ -198,25 +245,44 @@ class GroceryListTableViewController: UITableViewController {
   // MARK: Add Item
   
   @IBAction func addButtonDidTouch(_ sender: AnyObject) {
-    let alert = UIAlertController(title: "Grocery Item",
-                                  message: "Add an Item",
+
+//    if let vc = storyboard?.instantiateViewController(withIdentifier: "myAuthor") {
+//
+//         present(vc,animated: true,completion: {})
+//
+//    }
+
+
+
+
+
+
+
+
+
+///////
+    let alert = UIAlertController(title: "輸入姓名",
+                                  message: "發表文章",
                                   preferredStyle: .alert)
-    
+
     let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
 
         // 1
         guard let textField = alert.textFields?.first,
             let text = textField.text else { return }
         //let textField = alert.textFields![0]
-      
+
 //      let groceryItem = GroceryItem(name: textField.text!,
 //                                    addedByUser: self.user.email,
 //                                    completed: false)
 
         // 2
-        let groceryItem = GroceryItem(name: text,
-                                      addedByUser: self.user.email,
-                                      completed: false)
+
+
+        let groceryItem = GroceryItem(firstName: text,
+                                      lastName: text,
+                                      articleText: text,
+                                     liked: false)
 
         // 3
         let groceryItemRef = self.ref.child(text.lowercased())
@@ -227,19 +293,21 @@ class GroceryListTableViewController: UITableViewController {
 
       self.items.append(groceryItem)
       self.tableView.reloadData()
+////////
+
     }
-    
+
     let cancelAction = UIAlertAction(title: "Cancel",
                                      style: .cancel)
-    
+
     alert.addTextField()
-    
+
     alert.addAction(saveAction)
     alert.addAction(cancelAction)
-    
+
     present(alert, animated: true, completion: nil)
   }
-  
+
   @objc func userCountButtonDidTouch() {
     performSegue(withIdentifier: listToUsers, sender: nil)
   }

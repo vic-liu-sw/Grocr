@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		36EF7D012242264100769D12 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 36EF7D002242264000769D12 /* GoogleService-Info.plist */; };
+		36EF7D052242A92C00769D12 /* AuthorViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36EF7D042242A92C00769D12 /* AuthorViewItem.swift */; };
+		36EF7D132242B8B600769D12 /* AuthorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36EF7D122242B8B600769D12 /* AuthorTableViewCell.swift */; };
+		36EF7D152242BC2500769D12 /* AuthorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36EF7D142242BC2500769D12 /* AuthorViewController.swift */; };
 		645D7898204344160093B00C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645D7897204344160093B00C /* AppDelegate.swift */; };
 		645D789F204344160093B00C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 645D789E204344160093B00C /* Assets.xcassets */; };
 		645D78A2204344160093B00C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 645D78A0204344160093B00C /* LaunchScreen.storyboard */; };
@@ -23,6 +26,9 @@
 /* Begin PBXFileReference section */
 		36EF7CFF2241F12D00769D12 /* Grocr.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Grocr.entitlements; sourceTree = "<group>"; };
 		36EF7D002242264000769D12 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		36EF7D042242A92C00769D12 /* AuthorViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorViewItem.swift; sourceTree = "<group>"; };
+		36EF7D122242B8B600769D12 /* AuthorTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorTableViewCell.swift; sourceTree = "<group>"; };
+		36EF7D142242BC2500769D12 /* AuthorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AuthorViewController.swift; path = Grocr/Controllers/AuthorViewController.swift; sourceTree = SOURCE_ROOT; };
 		645D7894204344160093B00C /* Grocr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Grocr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		645D7897204344160093B00C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		645D789E204344160093B00C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -60,6 +66,14 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		36EF7D112242B84C00769D12 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				36EF7D122242B8B600769D12 /* AuthorTableViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		619CCEE8BE30B25D8D2DB04F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -90,6 +104,7 @@
 			isa = PBXGroup;
 			children = (
 				36EF7CFF2241F12D00769D12 /* Grocr.entitlements */,
+				36EF7D112242B84C00769D12 /* Views */,
 				649F421B20438CBC00B21997 /* Models */,
 				649F421C20438CC100B21997 /* Controllers */,
 				645D7897204344160093B00C /* AppDelegate.swift */,
@@ -106,6 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				649F422420438D2E00B21997 /* GroceryItem.swift */,
+				36EF7D042242A92C00769D12 /* AuthorViewItem.swift */,
 				649F422320438D2E00B21997 /* User.swift */,
 			);
 			path = Models;
@@ -116,6 +132,7 @@
 			children = (
 				649F421F20438D1B00B21997 /* GroceryListTableViewController.swift */,
 				649F421D20438D1A00B21997 /* LoginViewController.swift */,
+				36EF7D142242BC2500769D12 /* AuthorViewController.swift */,
 				649F421E20438D1A00B21997 /* OnlineUsersTableViewController.swift */,
 			);
 			path = Controllers;
@@ -257,8 +274,11 @@
 				649F422120438D1B00B21997 /* OnlineUsersTableViewController.swift in Sources */,
 				649F422520438D2E00B21997 /* User.swift in Sources */,
 				649F422220438D1B00B21997 /* GroceryListTableViewController.swift in Sources */,
+				36EF7D052242A92C00769D12 /* AuthorViewItem.swift in Sources */,
 				645D7898204344160093B00C /* AppDelegate.swift in Sources */,
+				36EF7D152242BC2500769D12 /* AuthorViewController.swift in Sources */,
 				649F422620438D2E00B21997 /* GroceryItem.swift in Sources */,
+				36EF7D132242B8B600769D12 /* AuthorTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -29,43 +29,89 @@
 import Foundation
 import Firebase
 
+//struct GroceryItem {
+//
+//  let ref: DatabaseReference?
+//  let key: String
+//  let name: String
+//  let addedByUser: String
+//  var completed: Bool
+//  init(name: String, addedByUser: String, completed: Bool, key: String = "") {
+//    self.ref = nil
+//    self.key = key
+//    self.name = name
+//    self.addedByUser = addedByUser
+//    self.completed = completed
+//  }
+//
+//  init?(snapshot: DataSnapshot) {
+//    guard
+//      let value = snapshot.value as? [String: AnyObject],
+//      let name = value["name"] as? String,
+//      let addedByUser = value["addedByUser"] as? String,
+//      let completed = value["completed"] as? Bool else {
+//      return nil
+//    }
+//
+//    self.ref = snapshot.ref
+//    self.key = snapshot.key
+//    self.name = name
+//    self.addedByUser = addedByUser
+//    self.completed = completed
+//  }
+//
+//  func toAnyObject() -> Any {
+//    return [
+//      "name": name,
+//      "addedByUser": addedByUser,
+//      "completed": completed
+//    ]
+//  }
+//}
+
+
 struct GroceryItem {
-  
-  let ref: DatabaseReference?
-  let key: String
-  let name: String
-  let addedByUser: String
-  var completed: Bool
-  
-  init(name: String, addedByUser: String, completed: Bool, key: String = "") {
-    self.ref = nil
-    self.key = key
-    self.name = name
-    self.addedByUser = addedByUser
-    self.completed = completed
-  }
-  
-  init?(snapshot: DataSnapshot) {
-    guard
-      let value = snapshot.value as? [String: AnyObject],
-      let name = value["name"] as? String,
-      let addedByUser = value["addedByUser"] as? String,
-      let completed = value["completed"] as? Bool else {
-      return nil
+
+    let ref: DatabaseReference?
+    let key: String
+    let firstName: String
+    let lastName: String
+    let articleText: String
+
+    var liked: Bool
+    init(firstName: String, lastName: String, articleText: String, liked: Bool, key: String = "") {
+        self.ref = nil
+        self.key = key
+        self.firstName = firstName
+        self.lastName = lastName
+        self.liked = liked
+        self.articleText = articleText
     }
-    
-    self.ref = snapshot.ref
-    self.key = snapshot.key
-    self.name = name
-    self.addedByUser = addedByUser
-    self.completed = completed
-  }
-  
-  func toAnyObject() -> Any {
-    return [
-      "name": name,
-      "addedByUser": addedByUser,
-      "completed": completed
-    ]
-  }
+
+    init?(snapshot: DataSnapshot) {
+        guard
+            let value = snapshot.value as? [String: AnyObject],
+            let firstName = value["firstName"] as? String,
+            let lastName = value["lastName"] as? String,
+            let articleText = value["articleText"] as? String,
+            let liked = value["liked"] as? Bool else {
+                return nil
+        }
+
+        self.ref = snapshot.ref
+        self.key = snapshot.key
+        self.firstName = firstName
+        self.lastName = lastName
+        self.articleText = articleText
+        self.liked = liked
+    }
+
+    func toAnyObject() -> Any {
+        return [
+            "firstName": firstName,
+            "firstName": firstName,
+            "articleText": articleText,
+            "liked": liked
+        ]
+    }
 }

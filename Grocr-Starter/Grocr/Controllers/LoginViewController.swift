@@ -59,12 +59,6 @@ class LoginViewController: UIViewController {
     }//end
 
 
-
-
-
-
-
-
   // MARK: Actions
   @IBAction func loginDidTouch(_ sender: AnyObject) {
     //performSegue(withIdentifier: loginToList, sender: nil)
@@ -89,11 +83,6 @@ class LoginViewController: UIViewController {
             self.present(alert, animated: true, completion: nil)
         }
     }
-
-
-
-
-
 
 
   }
