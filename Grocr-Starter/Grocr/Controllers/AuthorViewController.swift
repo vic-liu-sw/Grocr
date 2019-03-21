@@ -25,6 +25,9 @@ class AuthorViewController: UIViewController {
 
     @IBOutlet var pushButton: UIButton!
 
+    @IBOutlet var artichleTitle: UILabel!
+
+    @IBOutlet var ArticleText: UITextField!
 
     @IBAction func pushButton(_ sender: UIButton) {
 
@@ -35,6 +38,7 @@ class AuthorViewController: UIViewController {
           saveAuthorData.set(firstNameText.text, forKey: "firstName")
           saveAuthorData.set(lastNameText.text, forKey: "lastNameText")
           saveAuthorData.set(myTextView.text, forKey: "myTextView")
+          saveAuthorData.set(ArticleText.text, forKey: "ArticleText")
           saveAuthorData.synchronize()
           present(controller,animated: true,completion: {})
         }

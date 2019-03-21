@@ -35,16 +35,12 @@ class GroceryListTableViewController: UITableViewController {
   let listToUsers = "ListToUsers"
   
   // MARK: Properties
-  var items: [GroceryItem] = []
-
-  //var items: [AuthorViewItem] = []
+  var items: [ArticleItem] = []
+ 
   var user: User!
   var userCountBarButtonItem: UIBarButtonItem!
 
-
-
-  let ref = Database.database().reference(withPath: "grocery-items")
- // let ref = Database.database().reference(withPath: "author-items")
+  let ref = Database.database().reference(withPath: "article-items")
 
   let usersRef = Database.database().reference(withPath: "online")
 
@@ -88,22 +84,14 @@ class GroceryListTableViewController: UITableViewController {
 //
 //    })
 ////////向下排序
-    ref.queryOrdered(byChild: "completed").observe(.value, with: { snapshot in
-        var newItems: [GroceryItem] = []
-         // var newItems: [AuthorViewItem] = []
+    ref.queryOrdered(byChild: "liked").observe(.value, with: { snapshot in
+        var newItems: [ArticleItem] = []
         for child in snapshot.children {
 
-//            if let snapshot = child as? DataSnapshot,
-//                let authorItem = AuthorViewItem(snapshot: snapshot) {
-//                newItems.append(authorItem)
-//            }
-
             if let snapshot = child as? DataSnapshot,
-                let groceryItem = GroceryItem(snapshot: snapshot) {
+                let groceryItem = ArticleItem(snapshot: snapshot) {
                 newItems.append(groceryItem)
             }
-
-
         }
 
         self.items = newItems
@@ -142,7 +130,7 @@ class GroceryListTableViewController: UITableViewController {
   }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//    let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell", for: indexPath)
+
      guard let cell = tableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath) as? AuthorTableViewCell else { fatalError("cellerror") }
 //    guard let firstNamestringValue = saveAuthorData.string(forKey: "firstName") else {fatalError(" firstNamestringError") }
 //
@@ -154,19 +142,17 @@ class GroceryListTableViewController: UITableViewController {
 // print("firstName = \(firstNamestringValue)")
 // print("lastName =\(lastNamestringValue)")
 //  print("myTextView = \(myTextViewstringValue)")
-    let groceryItem = items[indexPath.row]
-    // let authorItem = items[indexPath.row]
+    let ArticleItem = items[indexPath.row]
 
-         cell.firstNameLabel.text = groceryItem.firstName
-         cell.lastNameCell.text = groceryItem.lastName
-         cell.myTextView.text = groceryItem.articleText
+    cell.articleContent.text = ArticleItem.articleContent
+    cell.articleTitle.text = ArticleItem.articleTitle
+    cell.authorName.text = ArticleItem.author
+    cell.createDate.text = ArticleItem.createDate
 
-//    cell.textLabel?.text = groceryItem.name
-//     cell.detailTextLabel?.text = groceryItem.addedByUser
-//     cell.textLabel?.text = firstNamestringValue + lastNamestringValue
-//    cell.detailTextLabel?.text = myTextViewstringValue
 
-     toggleCellCheckbox(cell, isCompleted: groceryItem.liked)
+
+
+     toggleCellCheckbox(cell, isCompleted: ArticleItem.liked)
 
 
     return cell
@@ -262,42 +248,58 @@ class GroceryListTableViewController: UITableViewController {
     }
     alert.addTextField {
         (textField: UITextField!) -> Void in
-        textField.placeholder = "文章"
+        textField.placeholder = "文章標題"
+
+    }
+
+    alert.addTextField {
+        (textField: UITextField!) -> Void in
+        textField.placeholder = "文章內容"
 
     }
 
     let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
 
         // 1
-//        guard let textField = alert.textFields?.first,
-//            let text = textField.text else { return }
+
 
         guard let firsttextField = alert.textFields?[0].text else { return }
 
         guard let lasttextField = alert.textFields?[1].text else { return }
-         guard let articletextField = alert.textFields?[2].text else { return }
-        //let textField = alert.textFields![0]
+         guard let articleTitle = alert.textFields?[2].text else { return }
+          guard let articleContent = alert.textFields?[3].text else { return }
 
-//      let groceryItem = GroceryItem(name: textField.text!,
-//                                    addedByUser: self.user.email,
-//                                    completed: false)
+           let authorName = firsttextField + " " + lasttextField
+        // 獲取當前時間
 
-        // 2
+        let now: Date = Date()
+
+        // 建立時間格式
+
+        let dateFormat: DateFormatter = DateFormatter()
+
+        dateFormat.dateFormat = "yyyy年MM月dd日 HH:mm:ss"
+        // 將當下時間轉換成設定的時間格式
+
+        let dateString: String = dateFormat.string(from: now)
+
+        print("now time = \(dateString)")
 
 
-        let groceryItem = GroceryItem(firstName: firsttextField,
-                                      lastName: lasttextField,
-                                      articleText: articletextField,
-                                     liked: false)
+
+
+     let articleItem = ArticleItem(articleTitle: articleTitle, articleContent: articleContent, author: authorName, createDate: dateString, liked: false)
+
+
       
         // 3
-        let groceryItemRef = self.ref.child(firsttextField.lowercased())
+        let articleItemRef = self.ref.child(authorName.lowercased())
 
         // 4
-        groceryItemRef.setValue(groceryItem.toAnyObject())
+        articleItemRef.setValue(articleItem.toAnyObject())
 
 
-      self.items.append(groceryItem)
+      self.items.append(articleItem)
       self.tableView.reloadData()
 ////////
 

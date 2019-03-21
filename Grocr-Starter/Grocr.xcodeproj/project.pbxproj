@@ -11,6 +11,7 @@
 		36EF7D052242A92C00769D12 /* AuthorViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36EF7D042242A92C00769D12 /* AuthorViewItem.swift */; };
 		36EF7D132242B8B600769D12 /* AuthorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36EF7D122242B8B600769D12 /* AuthorTableViewCell.swift */; };
 		36EF7D152242BC2500769D12 /* AuthorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36EF7D142242BC2500769D12 /* AuthorViewController.swift */; };
+		36EF7D172243A5A000769D12 /* ArticleItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36EF7D162243A5A000769D12 /* ArticleItem.swift */; };
 		645D7898204344160093B00C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645D7897204344160093B00C /* AppDelegate.swift */; };
 		645D789F204344160093B00C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 645D789E204344160093B00C /* Assets.xcassets */; };
 		645D78A2204344160093B00C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 645D78A0204344160093B00C /* LaunchScreen.storyboard */; };
@@ -29,6 +30,7 @@
 		36EF7D042242A92C00769D12 /* AuthorViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorViewItem.swift; sourceTree = "<group>"; };
 		36EF7D122242B8B600769D12 /* AuthorTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorTableViewCell.swift; sourceTree = "<group>"; };
 		36EF7D142242BC2500769D12 /* AuthorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AuthorViewController.swift; path = Grocr/Controllers/AuthorViewController.swift; sourceTree = SOURCE_ROOT; };
+		36EF7D162243A5A000769D12 /* ArticleItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleItem.swift; sourceTree = "<group>"; };
 		645D7894204344160093B00C /* Grocr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Grocr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		645D7897204344160093B00C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		645D789E204344160093B00C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				649F422420438D2E00B21997 /* GroceryItem.swift */,
+				36EF7D162243A5A000769D12 /* ArticleItem.swift */,
 				36EF7D042242A92C00769D12 /* AuthorViewItem.swift */,
 				649F422320438D2E00B21997 /* User.swift */,
 			);
@@ -273,6 +276,7 @@
 				649F422020438D1B00B21997 /* LoginViewController.swift in Sources */,
 				649F422120438D1B00B21997 /* OnlineUsersTableViewController.swift in Sources */,
 				649F422520438D2E00B21997 /* User.swift in Sources */,
+				36EF7D172243A5A000769D12 /* ArticleItem.swift in Sources */,
 				649F422220438D1B00B21997 /* GroceryListTableViewController.swift in Sources */,
 				36EF7D052242A92C00769D12 /* AuthorViewItem.swift in Sources */,
 				645D7898204344160093B00C /* AppDelegate.swift in Sources */,

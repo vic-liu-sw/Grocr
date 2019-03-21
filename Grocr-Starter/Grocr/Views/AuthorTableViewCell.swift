@@ -10,13 +10,17 @@ import UIKit
 class AuthorTableViewCell: UITableViewCell {
 
 
-    @IBOutlet var firstNameLabel: UILabel!
+    @IBOutlet var articleContent: UITextView!
 
-    @IBOutlet var lastNameCell: UILabel!
 
-    @IBOutlet var myTextView: UITextView!
+    @IBOutlet var articleTitle: UILabel!
 
-     
+
+    @IBOutlet var authorName: UILabel!
+
+    
+    @IBOutlet var createDate: UILabel!
+    
 
     override func awakeFromNib() {
         super.awakeFromNib()
