@@ -90,10 +90,23 @@ class GroceryListTableViewController: UITableViewController {
 
 
 
-//    ref.observe(.value) { (snapshot) in
-//         print("5555555555555")
-//        print(snapshot.value as Any)
-//
+    ref.observe(.value) { (snapshot) in
+         print("5555555555555")
+        print(snapshot.value as Any)
+
+        for child in snapshot.children {
+            let myUserUid: String = (self.user.uid as? String)!
+            print("my1uid-- =\(myUserUid)")
+          let info = snapshot.value as! NSDictionary
+           let myuserpost = info["user-posts"] as? NSDictionary
+             print("----myuser-post = \(myuserpost)")
+             let myUserByarticle = myuserpost![myUserUid] as? NSDictionary
+            print("myUserByarticle----- = \(myUserByarticle)")
+
+        }
+
+    }
+
 //        for child in snapshot.children {
 //
 //
@@ -103,6 +116,8 @@ class GroceryListTableViewController: UITableViewController {
 //         print("----author = \(author)")
 //
 //print("xxxxx = \(info.allValues)")
+//
+//        }
 //
 //            if let mysnapshot = child as? DataSnapshot{
 //
@@ -155,7 +170,7 @@ class GroceryListTableViewController: UITableViewController {
 //    })
 ////////向下排序
     // 查詢節點資料
-    ref.queryOrdered(byChild: "liked").observe(.value, with: { snapshot in
+    self.ref.queryOrdered(byChild: "liked").observe(.value, with: { snapshot in
         var newItems: [ArticleItem] = []
         for child in snapshot.children {
 
