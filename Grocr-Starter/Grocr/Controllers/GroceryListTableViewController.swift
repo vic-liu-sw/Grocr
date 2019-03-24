@@ -36,11 +36,14 @@ class GroceryListTableViewController: UITableViewController {
   
   // MARK: Properties
   var items: [ArticleItem] = []
- 
+  //var postKey = ""
   var user: User!
   var userCountBarButtonItem: UIBarButtonItem!
 
-  let ref = Database.database().reference(withPath: "article-items")
+  let ref = Database.database().reference(withPath: "articles-system")
+//     let ref = Database.database().reference()
+//    var postRef = Database.database().reference(withPath: "articlePost")
+//    var publishRef = Database.database().reference(withPath: "authorPublish")
 
   let usersRef = Database.database().reference(withPath: "online")
 
@@ -64,7 +67,74 @@ class GroceryListTableViewController: UITableViewController {
     navigationItem.leftBarButtonItem = userCountBarButtonItem
     
     user = User(uid: "FakeId", email: "hungry@person.food")
-//    // 1
+
+
+    ref.child("user-posts").child(self.user.uid).childByAutoId().queryOrderedByKey().observe(.value) { (snapshot) in
+
+
+        for myitem in snapshot.children {
+             print("item YYY = \(myitem)")
+        }
+
+
+    }
+
+  // reference.queryOrderedByKey().observe(.value, with: { snapshot in
+
+
+
+//    ref.child("author").observeSingleEvent(of: .value) { (snapshot) in
+//        print("ooooo= \(snapshot)")
+//    }
+
+
+
+
+//    ref.observe(.value) { (snapshot) in
+//         print("5555555555555")
+//        print(snapshot.value as Any)
+//
+//        for child in snapshot.children {
+//
+//
+//            let info = snapshot.value as! NSDictionary
+//             // let key = info["key"] as? String
+//             let author = info["author"] as? String ?? ""
+//         print("----author = \(author)")
+//
+//print("xxxxx = \(info.allValues)")
+//
+//            if let mysnapshot = child as? DataSnapshot{
+//
+//               let qq = mysnapshot.childSnapshot(forPath: "author")
+//
+//
+//            print(" qq = \( qq)")
+//
+//            }
+//
+//        }
+//
+//    }
+
+//    ref.queryOrdered(byChild: "author" ).observe(.value, with: { snapshot in
+//
+//        for child in snapshot.children {
+//
+//            if let snapshot = child as? DataSnapshot{
+//               print("TTTTTTT = \(snapshot)")
+//            }
+//        }
+//
+//    })
+
+
+//   ref.child("vic liu").observeSingleEvent(of: .value) { (snapshot) in
+//        print("eeeeeeee = \(snapshot)")
+//    }
+
+
+    //    // 1
 //    ref.observe(.value, with: { snapshot in
 //        print(snapshot.value as Any)
 //        // 2
@@ -84,13 +154,14 @@ class GroceryListTableViewController: UITableViewController {
 //
 //    })
 ////////向下排序
+    // 查詢節點資料
     ref.queryOrdered(byChild: "liked").observe(.value, with: { snapshot in
         var newItems: [ArticleItem] = []
         for child in snapshot.children {
 
             if let snapshot = child as? DataSnapshot,
-                let groceryItem = ArticleItem(snapshot: snapshot) {
-                newItems.append(groceryItem)
+                let ArticleItem = ArticleItem(snapshot: snapshot) {
+                newItems.append(ArticleItem)
             }
         }
 
@@ -132,27 +203,25 @@ class GroceryListTableViewController: UITableViewController {
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
      guard let cell = tableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath) as? AuthorTableViewCell else { fatalError("cellerror") }
+
 //    guard let firstNamestringValue = saveAuthorData.string(forKey: "firstName") else {fatalError(" firstNamestringError") }
 //
 //    guard let lastNamestringValue = saveAuthorData.string(forKey: "lastNameText") else {fatalError("lastNamestringError") }
 //
 //    guard let myTextViewstringValue = saveAuthorData.string(forKey: "myTextView") else {fatalError(" myTextViewstringError") }
-//   
-
-// print("firstName = \(firstNamestringValue)")
-// print("lastName =\(lastNamestringValue)")
-//  print("myTextView = \(myTextViewstringValue)")
-    let ArticleItem = items[indexPath.row]
-
-    cell.articleContent.text = ArticleItem.articleContent
-    cell.articleTitle.text = ArticleItem.articleTitle
-    cell.authorName.text = ArticleItem.author
-    cell.createDate.text = ArticleItem.createDate
+//
+//    guard let myArticleTextSringValue = saveAuthorData.string(forKey: "ArticleText") else {fatalError(" myTextViewstringError") }
 
 
+    let articleItem = items[indexPath.row]
+print("-----articleItem= \(articleItem)")
+    cell.articleContent.text = articleItem.articleContent
+    cell.articleTitle.text = articleItem.articleTitle
+    cell.authorName.text = articleItem.author
+    cell.createDate.text = articleItem.createDate
 
 
-     toggleCellCheckbox(cell, isCompleted: ArticleItem.liked)
+     toggleCellCheckbox(cell, isCompleted: articleItem.liked)
 
 
     return cell
@@ -165,13 +234,10 @@ class GroceryListTableViewController: UITableViewController {
   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
 
     if editingStyle == .delete {
-        let groceryItem = items[indexPath.row]
-        groceryItem.ref?.removeValue()
+        let articleItem = items[indexPath.row]
+       articleItem.ref?.removeValue()
     }
-//    if editingStyle == .delete {
-//      items.remove(at: indexPath.row)
-//      tableView.reloadData()
-//    }
+
 
 
   }
@@ -180,23 +246,21 @@ class GroceryListTableViewController: UITableViewController {
     // 1
     guard let cell = tableView.cellForRow(at: indexPath) else { return }
     // 2
-    var groceryItem = items[indexPath.row]
-    // let authorItem = items[indexPath.row]
+    var articleItem = items[indexPath.row]
+
     // 3
-    //let toggledCompletion = !groceryItem.completed
-     let toggledCompletion = !groceryItem.liked
-    // let toggledCompletion = !authorItem.liked
+
+     let toggledCompletion = !articleItem.liked
+
     // 4
     toggleCellCheckbox(cell, isCompleted: toggledCompletion)
 
-    groceryItem.liked = toggledCompletion
+   articleItem.liked = toggledCompletion
     tableView.reloadData()
     // 5
-//    authorItem.ref?.updateChildValues([
-//        "liked": toggledCompletion
-//        ])
 
-    groceryItem.ref?.updateChildValues([
+
+    articleItem.ref?.updateChildValues([
         "liked": toggledCompletion
         ])
 
@@ -223,12 +287,6 @@ class GroceryListTableViewController: UITableViewController {
 //         present(vc,animated: true,completion: {})
 //
 //    }
-
-
-
-
-
-
 
 
 
@@ -268,7 +326,7 @@ class GroceryListTableViewController: UITableViewController {
         guard let lasttextField = alert.textFields?[1].text else { return }
          guard let articleTitle = alert.textFields?[2].text else { return }
           guard let articleContent = alert.textFields?[3].text else { return }
-
+        guard let userID = Auth.auth().currentUser?.uid else { fatalError("uidError") }
            let authorName = firsttextField + " " + lasttextField
         // 獲取當前時間
 
@@ -285,23 +343,62 @@ class GroceryListTableViewController: UITableViewController {
 
         print("now time = \(dateString)")
 
+       //新增
+        self.ref.child("users").child(self.user.uid).setValue(["username": authorName])
 
 
 
-     let articleItem = ArticleItem(articleTitle: articleTitle, articleContent: articleContent, author: authorName, createDate: dateString, liked: false)
+        //self.ref.child("users").child(userID).observeSingleEvent(of: .value, with: { (snapshot) in
+       // self.ref.child(authorName).child(userID).childByAutoId().observe(.value, with: { (snapshot) in
 
 
-      
-        // 3
-        let articleItemRef = self.ref.child(authorName.lowercased())
 
-        // 4
+
+
+
+
+      self.ref.child("users").child(userID).observeSingleEvent(of: .value, with: { (snapshot) in
+           let value = snapshot.value as? NSDictionary
+            print("value------=\(value)")
+            let username = value?["author"] as? String ?? ""
+            print("username---- = \(username)")
+            let user = MyUser(userName: username)
+
+            let key = self.ref.child("posts").childByAutoId().key
+            let post = ["uid": userID,
+                        "author": authorName,
+                        "title": articleTitle,
+                        "articleContent": articleContent]
+            let childUpdates = ["/posts/\(key)": post,
+                                "/user-posts/\(userID)/\(key)/": post]
+            print("childUpdates =\(childUpdates)")
+            self.ref.updateChildValues(childUpdates)
+
+
+
+            })
+
+
+
+  let articleItem = ArticleItem(uid: userID, articleTitle: articleTitle, articleContent: articleContent, author: authorName, createDate: dateString, liked: false)
+
+
+
+
+            let mykey = self.ref.child(authorName).child(userID).childByAutoId().key
+
+//        // 3
+       //  let articleItemRef = self.ref.child(userID).child(authorName.lowercased())
+        let articleItemRef = self.ref.child(mykey.lowercased())
+//         // let articleItemRef = self.ref.child(childRef.key)
+//        // 4
+
         articleItemRef.setValue(articleItem.toAnyObject())
-
+      print("articleItem----=\(articleItem)")
 
       self.items.append(articleItem)
       self.tableView.reloadData()
-////////
+//////
 
     }
 

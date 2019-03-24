@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 //let saveAuthorData = UserDefaults.standard
 class AuthorViewController: UIViewController {
 
@@ -29,11 +30,16 @@ class AuthorViewController: UIViewController {
 
     @IBOutlet var ArticleText: UITextField!
 
+    let ref = Database.database().reference()
+
     @IBAction func pushButton(_ sender: UIButton) {
 
 
         if let controller = storyboard?.instantiateViewController(withIdentifier: "myNav") as? UINavigationController {
              print("--------myNav-------")
+           
+
+
 
           saveAuthorData.set(firstNameText.text, forKey: "firstName")
           saveAuthorData.set(lastNameText.text, forKey: "lastNameText")

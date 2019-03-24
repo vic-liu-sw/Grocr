@@ -44,3 +44,15 @@ struct User {
     self.email = email
   }
 }
+
+class MyUser: NSObject {
+    var userName: String
+
+    init(userName: String) {
+        self.userName = userName
+    }
+
+    convenience override init() {
+        self.init(userName:  "")
+    }
+}

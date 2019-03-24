@@ -8,20 +8,21 @@
 
 import Foundation
 import Firebase
+let saveAuthorData = UserDefaults.standard
 
 struct ArticleItem {
 
     let ref: DatabaseReference?
-    let key: String
+    var uid: String
     let articleTitle: String
     let articleContent: String
     let author: String
     let createDate: String
-
     var liked: Bool
-    init(articleTitle: String, articleContent: String, author: String, createDate: String, liked: Bool, key: String = "article") {
+    
+    init(uid: String, articleTitle: String, articleContent: String, author: String, createDate: String, liked: Bool) {
         self.ref = nil
-        self.key = key
+        self.uid = uid
         self.articleTitle = articleTitle
         self.articleContent = articleContent
         self.author = author
@@ -33,6 +34,7 @@ struct ArticleItem {
     init?(snapshot: DataSnapshot) {
         guard
             let value = snapshot.value as? [String: AnyObject],
+            let uid = value["uid"] as? String,
             let articleTitle = value["articleTitle"] as? String,
             let articleContent = value["articleContent"] as? String,
             let author = value["author"] as? String,
@@ -42,7 +44,7 @@ struct ArticleItem {
         }
 
         self.ref = snapshot.ref
-        self.key = snapshot.key
+        self.uid = uid
         self.articleTitle = articleTitle
         self.articleContent = articleContent
         self.author = author
@@ -52,6 +54,7 @@ struct ArticleItem {
 
     func toAnyObject() -> Any {
         return [
+            "uid": uid,
             "articleTitle": articleTitle,
             "articleContent": articleContent,
             "author": author,
