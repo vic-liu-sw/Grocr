@@ -90,22 +90,36 @@ class GroceryListTableViewController: UITableViewController {
 
 
 
-    ref.observe(.value) { (snapshot) in
-         print("5555555555555")
+    ref.child("user-posts").child(self.user.uid).observe(.value) { (snapshot) in
+         print("UUUUUUUUUU")
         print(snapshot.value as Any)
+//        for child in snapshot.children {
+//
+//
+//        }
 
-        for child in snapshot.children {
-            let myUserUid: String = (self.user.uid as? String)!
-            print("my1uid-- =\(myUserUid)")
-          let info = snapshot.value as! NSDictionary
-           let myuserpost = info["user-posts"] as? NSDictionary
-             print("----myuser-post = \(myuserpost)")
-             let myUserByarticle = myuserpost![myUserUid] as? NSDictionary
-            print("myUserByarticle----- = \(myUserByarticle)")
-
-        }
 
     }
+
+
+//    ref.observe(.value) { (snapshot) in
+//         print("5555555555555")
+//        print(snapshot.value as Any)
+//
+//        for child in snapshot.children {
+//            let myUserUid: String = (self.user.uid as? String)!
+//            print("my1uid-- =\(myUserUid)")
+//          let info = snapshot.value as! NSDictionary
+//           let myuserpost = info["user-posts"] as? NSDictionary
+//             print("----myuser-post = \(myuserpost)")
+//             let myUserByarticle = myuserpost![myUserUid] as? NSDictionary
+//            print("myUserByarticle----- = \(myUserByarticle)")
+//
+//        }
+//
+//    }
+
+
 
 //        for child in snapshot.children {
 //
@@ -229,7 +243,7 @@ class GroceryListTableViewController: UITableViewController {
 
 
     let articleItem = items[indexPath.row]
-print("-----articleItem= \(articleItem)")
+//print("-----articleItem= \(articleItem)")
     cell.articleContent.text = articleItem.articleContent
     cell.articleTitle.text = articleItem.articleTitle
     cell.authorName.text = articleItem.author
@@ -409,7 +423,7 @@ print("-----articleItem= \(articleItem)")
 //        // 4
 
         articleItemRef.setValue(articleItem.toAnyObject())
-      print("articleItem----=\(articleItem)")
+   //   print("articleItem----=\(articleItem)")
 
       self.items.append(articleItem)
       self.tableView.reloadData()
