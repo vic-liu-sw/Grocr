@@ -36,6 +36,7 @@ class GroceryListTableViewController: UITableViewController {
   
   // MARK: Properties
   var items: [ArticleItem] = []
+    var myPostKey: [String] = []
   //var postKey = ""
   var user: User!
   var userCountBarButtonItem: UIBarButtonItem!
@@ -68,35 +69,27 @@ class GroceryListTableViewController: UITableViewController {
     
     user = User(uid: "FakeId", email: "hungry@person.food")
 
+ guard let myuserID = Auth.auth().currentUser?.uid else { fatalError("myuidError") }
+    print("myuserID = \(myuserID)")
 
-    ref.child("user-posts").child(self.user.uid).childByAutoId().queryOrderedByKey().observe(.value) { (snapshot) in
-
-
-        for myitem in snapshot.children {
-             print("item YYY = \(myitem)")
-        }
-
-
-    }
-
-  // reference.queryOrderedByKey().observe(.value, with: { snapshot in
-
-
-
-//    ref.child("author").observeSingleEvent(of: .value) { (snapshot) in
-//        print("ooooo= \(snapshot)")
-//    }
-
-
-
-
-    ref.child("user-posts").child(self.user.uid).observe(.value) { (snapshot) in
+    ref.child("user-posts").child(myuserID).observe(.value) { (snapshot) in
          print("UUUUUUUUUU")
         print(snapshot.value as Any)
-//        for child in snapshot.children {
-//
-//
-//        }
+        for myChild in snapshot.children {
+               let myChild = snapshot.value as! NSDictionary
+           print("----------child1 =\(myChild)")
+            if let myMuKeyArray = saveAuthorData.array(forKey: "vic liu") {
+
+                print("myMuKeyArray = \(myMuKeyArray)")
+                for muKey in myMuKeyArray {
+                 print("muKey = \(muKey)")
+
+            print("myFinContext = \(String(describing:  myChild[muKey]))")
+
+                }
+            }
+
+        }
 
 
     }
@@ -373,7 +366,7 @@ class GroceryListTableViewController: UITableViewController {
         print("now time = \(dateString)")
 
        //新增
-        self.ref.child("users").child(self.user.uid).setValue(["username": authorName])
+        self.ref.child("users").child(userID).setValue(["username": authorName])
 
 
 
@@ -388,19 +381,25 @@ class GroceryListTableViewController: UITableViewController {
 
       self.ref.child("users").child(userID).observeSingleEvent(of: .value, with: { (snapshot) in
            let value = snapshot.value as? NSDictionary
-            print("value------=\(value)")
-            let username = value?["author"] as? String ?? ""
-            print("username---- = \(username)")
-            let user = MyUser(userName: username)
+        guard let myUserName = value?["username"] as? String else {fatalError("userNameError")}
+        print("myUserName------= \(myUserName)")
+
 
             let key = self.ref.child("posts").childByAutoId().key
+
+
+            self.myPostKey.append(key)
+        print("myPostKey = \(self.myPostKey)")
+
+        saveAuthorData.set(self.myPostKey, forKey: myUserName)
+
             let post = ["uid": userID,
                         "author": authorName,
                         "title": articleTitle,
                         "articleContent": articleContent]
             let childUpdates = ["/posts/\(key)": post,
                                 "/user-posts/\(userID)/\(key)/": post]
-            print("childUpdates =\(childUpdates)")
+          //  print("childUpdates =\(childUpdates)")
             self.ref.updateChildValues(childUpdates)
 
 
