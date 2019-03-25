@@ -268,7 +268,7 @@ print("-----articleItem= \(articleItem)")
      let toggledCompletion = !articleItem.liked
 
     // 4
-    toggleCellCheckbox(cell, isCompleted: toggledCompletion)
+  //  toggleCellCheckbox(cell, isCompleted: toggledCompletion)
 
    articleItem.liked = toggledCompletion
     tableView.reloadData()
